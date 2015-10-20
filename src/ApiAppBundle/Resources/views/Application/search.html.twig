@@ -1,0 +1,52 @@
+ {# src/Acme/HelloBundle/Resources/views/Hello/index.html.twig #}
+ {% extends 'ApiAppBundle:Application:layout.html.twig' %}
+
+ {% block menu %} 
+        <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="add.html">Home.pl Test</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="{{ path('api_app_add') }}">Add</a></li>
+            <li class="active"><a href="{{ path('api_app_search') }}">Search</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    {% endblock %}  
+ 
+ {% block body %}
+     <!-- Begin page content -->
+    <div class="container">
+      <div class="page-header">
+        <h1>Search Location</h1>
+      </div>
+        <div class="container">
+            <form id="search_form" class="form-inline">
+                <div class="form-group">
+                  <label for="search">Search</label>
+                  <input name="query" type="text" class="form-control" id="search" placeholder="E.g. Hłudno" required>
+                </div>
+                <div class="form-group">
+                  <label for="search_by">by</label>
+                  <select name="search_by" id="search_by" class="form-control">
+                    <option value="search">Name</option>
+                    <option value="distance">Distance  From Home.pl</option>
+                  </select>
+                </div>
+                <input type="hidden" name="_ACTION" value="SEARCH" />
+                <button type="submit" class="btn btn-default">Search</button>
+            </form>
+        </div>
+        <div class="container" id="result"> </div>
+    </div>
+ {% endblock %}

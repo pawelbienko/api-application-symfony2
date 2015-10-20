@@ -1,0 +1,11 @@
+api_app_homepage:
+    path:     /
+    defaults: { _controller: ApiAppBundle:Application:index }
+
+api_app_add:
+    path:     /add
+    defaults: { _controller: ApiAppBundle:Application:index }
+
+api_app_search:
+    path:     /search
+    defaults: { _controller: ApiAppBundle:Application:search }

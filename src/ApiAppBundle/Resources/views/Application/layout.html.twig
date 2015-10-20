@@ -1,0 +1,89 @@
+{% extends '::base.html.twig' %}
+  {% block stylesheets %}
+      <!-- Bootstrap core CSS -->
+    <link href="{{ asset('css/bootstrap.min.css')}}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('css/sticky-footer-navbar.css')}}" rel="stylesheet">
+    {% endblock %}
+     
+    {% block menu %} 
+        <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="add.html">Home.pl Test</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="{{ path('api_app_add') }}">Add</a></li>
+            <li class="active"><a href="{{ path('api_app_search') }}">Search</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    {% endblock %}      
+
+    {% block body %} {% endblock %}
+    
+    {% block footer %}
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted">Paweł Bieńko</p>
+      </div>
+    </footer>
+    {% endblock %}
+
+
+    
+    {% block javascripts %}
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script>
+        $("#search_form").submit(function(event) {
+    event.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url : '{{path('api_app_search')}}',
+        data: $(this).serialize()
+    })
+    .done(function(data){
+        $('#result').removeClass().html('');
+        var text = $.parseJSON(data);
+        if($.type(text) === "string"){
+            $('#result').addClass( "alert alert-info" )
+            .html('<p>'+text+'</p>');
+        }else{
+            var content = "<table class='table'>\n\
+                <th>Id</th><th>Name</th><th>Address</th>\n\
+                <th>Latitude</th><th>Longitude</th>";
+            $.each( text, function( key, value ) {
+                content +="<tr>";
+                $.each(value, function(k, v){
+                    content += "<td>"+v+"</td>";
+                });
+                content +="</tr>";
+            });
+            content += "</table>";
+            $('#result').html(content);
+        }
+            $('#search_form')[0].reset();
+    })
+    .fail(function(){
+        alert("Searching failed"); 
+    });
+    return false;           
+});  
+        
+    </script>
+    {% endblock %}
